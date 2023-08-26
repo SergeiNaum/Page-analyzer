@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = "Page analyzer"
+authors = ["Naumenko_Sergey <sergei.naumencko@yandex.ru>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "page_analyzer"}]
+
+[tool.poetry.dependencies]
+python = "3.11.3"
+flask = "^2.3.3"
+gunicorn = "^21.2.0"
+python-dotenv = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

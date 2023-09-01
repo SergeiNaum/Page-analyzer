@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  Сайты
+{% endblock %}
+
+{% block content %}
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-nowrap" data-test="urls">
+      <tbody>
+        <tr>
+          <th>ID</th>
+          <th>Имя</th>
+          <th>Последняя проверка</th>
+          <th>Код ответа</th>
+        </tr>
+
+        {% for url_id, url_name, status_code, last_url_check_created_at in data %}
+          <tr>
+            <td>{{ url_id }}</td>
+            <td>
+              <a href="{{ url_for('get_url_details', id=url_id) }}">{{ url_name }}</a>
+            </td>
+            <td>
+              {% if last_url_check_created_at %}
+                {{ last_url_check_created_at }}
+              {% endif %}
+            </td>
+            <td>
+              {% if status_code %}
+                {{ status_code }}
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

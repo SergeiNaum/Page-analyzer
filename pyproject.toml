@@ -3,6 +3,7 @@ name = "hexlet-code"
 version = "0.1.0"
 description = "Page analyzer"
 authors = ["Naumenko_Sergey <sergei.naumencko@yandex.ru>"]
+repository = "https://github.com/SergeiNaum/python-project-83"
 license = "MIT"
 readme = "README.md"
 packages = [{include = "page_analyzer"}]
@@ -11,7 +12,10 @@ packages = [{include = "page_analyzer"}]
 python = "3.11.3"
 flask = "^2.3.3"
 gunicorn = "^21.2.0"
-python-dotenv = "^1.0.0"
+psycopg2-binary = "^2.9.5"
+requests = "^2.31.0"
+validators = "^0.21.2"
+beautifulsoup4 = "^4.12.2"
 
 
 [tool.poetry.group.dev.dependencies]

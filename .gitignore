@@ -13,4 +13,3 @@ coverage.xml
 .git
 cover
 *,cover
-build.sh

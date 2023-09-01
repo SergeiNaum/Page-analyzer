@@ -4,6 +4,7 @@ from validators.url import url as is_correct_url
 
 
 def get_main_page_url(url: str) -> str:
+    """Truncates the URL to the <protocol>://<domain name> structure"""
     parsed_url = urlparse(url)
     return f'{parsed_url.scheme}://{parsed_url.netloc}'
 
@@ -16,6 +17,7 @@ def get_status_code_by_url(url):
 
 
 def validate_url(url: str) -> list:
+    """Validate url by rules"""
     errors = []
 
     if not url:

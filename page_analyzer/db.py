@@ -8,7 +8,7 @@ def add_url(conn, url_name):
     with conn:
         with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
             curs.execute('INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id;',
-                         (url_name, datetime.now()), )
+                         (url_name, datetime.now()))
             id = curs.fetchone()
             conn.commit()
 

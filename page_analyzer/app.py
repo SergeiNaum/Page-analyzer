@@ -1,5 +1,4 @@
 import os
-
 import psycopg2
 from flask import (
     Flask,
@@ -27,10 +26,9 @@ def get_redirect_to_url_details_page(id):
 
 
 @app.route('/')
-@app.route('/index')
 def index():
     messages = get_flashed_messages(with_categories=True)
-    return render_template('index.html', messages=messages, )
+    return render_template('index.html', messages=messages)
 
 
 @app.get('/urls')
@@ -43,7 +41,7 @@ def urls_show():
 @app.post('/urls')
 def post_url():
     url_name = request.form.get('url')
-    errors = web_utils.validate_url('url_name')
+    errors = web_utils.validate_url(url_name)
 
     if errors:
         for error in errors:

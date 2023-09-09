@@ -11,7 +11,7 @@ packages = [{include = "page_analyzer"}]
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
 flask = "^2.3.3"
-gunicorn = "^21.2.0"
+gunicorn = "^20.1.0"
 psycopg2-binary = "^2.9.5"
 requests = "^2.31.0"
 validators = "^0.21.2"

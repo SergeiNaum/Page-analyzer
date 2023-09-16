@@ -16,6 +16,7 @@ psycopg2-binary = "^2.9.5"
 requests = "^2.31.0"
 validators = "^0.21.2"
 beautifulsoup4 = "^4.12.2"
+python-dotenv = "^1.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

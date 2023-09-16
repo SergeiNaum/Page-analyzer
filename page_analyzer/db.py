@@ -4,7 +4,9 @@ import psycopg2
 from datetime import datetime
 from typing import NamedTuple
 from psycopg2.extras import NamedTupleCursor
+from dotenv import load_dotenv
 
+load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 
@@ -35,7 +37,7 @@ class FDataBase:
         try:
             self.__cur.execute(
                 """INSERT INTO url_checks
-                (url_id, status_code, h1, title, description, created_at)\
+                (url_id, status_code, h1, title, description, created_at)
                 VALUES (%s, %s, %s, %s, %s, %s);""",
                 (
                     url.id,

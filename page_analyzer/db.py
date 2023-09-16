@@ -20,8 +20,10 @@ class FDataBase:
 
     def add_url(self, url_name: str) -> NamedTuple:
         try:
-            self.__cur.execute("""INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id;""",
-                            (url_name, datetime.now()))
+            self.__cur.execute(
+                """INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id;""",
+                (url_name, datetime.now())
+            )
             id = self.__cur.fetchone()
             self.__db.commit()
 
@@ -32,18 +34,18 @@ class FDataBase:
     def create_url_check(self, url, status_code: int, tags_data: dict):
         try:
             self.__cur.execute(
-                    """INSERT INTO url_checks\
-                    (url_id, status_code, h1, title, description, created_at)\
-                    VALUES (%s, %s, %s, %s, %s, %s);""",
-                    (
-                        url.id,
-                        status_code,
-                        tags_data['h1'],
-                        tags_data['title'],
-                        tags_data['description'],
-                        datetime.now(),
-                    ),
-                )
+                """INSERT INTO url_checks
+                (url_id, status_code, h1, title, description, created_at)\
+                VALUES (%s, %s, %s, %s, %s, %s);""",
+                (
+                    url.id,
+                    status_code,
+                    tags_data['h1'],
+                    tags_data['title'],
+                    tags_data['description'],
+                    datetime.now(),
+                ),
+            )
             self.__db.commit()
         except psycopg2.DatabaseError as e:
             print('Ошибка create_url_check' + ' ' + str(e))

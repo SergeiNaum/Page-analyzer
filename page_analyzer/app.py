@@ -1,6 +1,6 @@
 import os
 from typing import Optional, Any
-
+from dotenv import load_dotenv
 from flask import (
     Flask,
     render_template,
@@ -15,10 +15,13 @@ from flask import (
 from . import db, web_utils
 from .soup import get_page_data
 
+load_dotenv()
+
 app = Flask(__name__)
 
 # app.database_url = os.getenv('DATABASE_URL')
 app.secret_key = os.getenv('SECRET_KEY')
+
 
 def get_db() -> Optional[Any]:
     """Database connection, if not already install"""

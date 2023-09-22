@@ -12,21 +12,21 @@ from flask import (
     g,
 )
 
-from . import db, web_utils
-from .soup import get_page_data
+from page_analyzer import db, web_utils
+from page_analyzer import soup
 
 load_dotenv()
 
 app = Flask(__name__)
-
-# app.database_url = os.getenv('DATABASE_URL')
+# app config
+app.database_url = os.getenv('DATABASE_URL')
 app.secret_key = os.getenv('SECRET_KEY')
 
 
 def get_db() -> Optional[Any]:
     """Database connection, if not already install"""
     if not hasattr(g, 'link_db'):
-        g.link_db = db.get_connection()
+        g.link_db = db.get_connection(app.database_url)
     return g.link_db
 
 
@@ -100,10 +100,11 @@ def get_url_details(id: int):
 @app.post('/urls/<int:id>/checks')
 def post_url_check(id: int):
     url = dbase.get_url_by_id(id)
-    status_code = web_utils.get_status_code_by_url(url.name)
+    # status_code = web_utils.get_status_code_by_url(url.name)
+    tags_data = soup.get_page_data(url.name)
+    status_code = tags_data['status_code']
 
     if status_code and status_code < 400:
-        tags_data = get_page_data(url.name)
         dbase.create_url_check(url, status_code, tags_data)
 
         flash('Страница успешно проверена', 'success')
@@ -116,10 +117,10 @@ def post_url_check(id: int):
 @app.errorhandler(404)
 def not_found_error(error):
     error_message = "Страница не найдена! Пожалуйста, проверьте URL."
-    return render_template('urls/errors.html', error_message=error_message), 404
+    return render_template('errors.html', error_message=error_message), 404
 
 
 @app.errorhandler(500)
 def internal_error(error):
     error_message = "Внутренняя ошибка сервера! Пожалуйста, повторите попытку позже."
-    return render_template('urls/errors.html', error_message=error_message), 500
+    return render_template('errors.html', error_message=error_message), 500

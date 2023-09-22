@@ -8,12 +8,12 @@ from typing import NamedTuple, List
 from psycopg2.extras import NamedTupleCursor
 from dotenv import load_dotenv
 
-load_dotenv()
-DATABASE_URL = os.getenv('DATABASE_URL')
+# load_dotenv()
+# DATABASE_URL = os.getenv('DATABASE_URL')
 
 
-def get_connection():
-    return psycopg2.connect(DATABASE_URL)
+def get_connection(db_url):
+    return psycopg2.connect(db_url)
 
 
 class FDataBase:

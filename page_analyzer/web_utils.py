@@ -9,13 +9,6 @@ def get_main_page_url(url: str) -> str:
     return f'{parsed_url.scheme}://{parsed_url.netloc}'
 
 
-def get_status_code_by_url(url):
-    try:
-        return requests.get(url).status_code
-    except requests.RequestException:
-        return 0
-
-
 def validate_url(url: str) -> list:
     """Validate url by rules"""
     errors = []

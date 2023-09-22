@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_page_data(url_name):
+def get_page_data(url_name: str) -> dict:
     h1 = ''
     title = ''
     description = ''

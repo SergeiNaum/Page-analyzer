@@ -1,4 +1,3 @@
-import os
 from collections import namedtuple
 
 import psycopg2
@@ -8,11 +7,10 @@ from typing import NamedTuple, List
 from psycopg2.extras import NamedTupleCursor
 from dotenv import load_dotenv
 
-from page_analyzer import app
+from page_analyzer.app_config import DATABASE_URL
 
 
-# load_dotenv()
-DATABASE_URL = os.getenv('DATABASE_URL')
+load_dotenv()
 
 
 def get_connection(db_url):
@@ -110,7 +108,6 @@ def get_urls_and_last_checks_data(cur: psycopg2, db: psycopg2) -> List[NamedTupl
 
     except psycopg2.DatabaseError as e:
         print('Ошибка get_urls_and_last_checks_data' + ' ' + str(e))
-
 
 
 @create_db_connection(DATABASE_URL)

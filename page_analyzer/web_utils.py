@@ -1,4 +1,3 @@
-import requests
 from urllib.parse import urlparse
 from validators.url import url as is_correct_url
 

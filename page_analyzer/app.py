@@ -1,5 +1,3 @@
-import os
-from typing import Optional, Any
 from dotenv import load_dotenv
 from flask import (
     Flask,
@@ -9,26 +7,24 @@ from flask import (
     flash,
     redirect,
     url_for,
-    g,
 )
 
 from page_analyzer import db, web_utils
 from page_analyzer import soup
+from page_analyzer.app_config import SECRET_KEY
 
 load_dotenv()
 
 app = Flask(__name__)
 # app config
-# app.database_url = os.getenv('DATABASE_URL')
-DATABASE_URL = os.getenv('DATABASE_URL')
-app.secret_key = os.getenv('SECRET_KEY')
+app.secret_key = SECRET_KEY
 
 
-def get_db() -> Optional[Any]:
-    """Database connection, if not already install"""
-    if not hasattr(g, 'link_db'):
-        g.link_db = db.get_connection(DATABASE_URL)
-    return g.link_db
+# def get_db() -> Optional[Any]:
+#     """Database connection, if not already install"""
+#     if not hasattr(g, 'link_db'):
+#         g.link_db = db.get_connection(DATABASE_URL)
+#     return g.link_db
 
 
 # dbase = None

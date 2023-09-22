@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+
 from flask import (
     Flask,
     render_template,
@@ -12,8 +12,6 @@ from flask import (
 from page_analyzer import db, web_utils
 from page_analyzer import soup
 from page_analyzer.app_config import SECRET_KEY
-
-load_dotenv()
 
 app = Flask(__name__)
 # app config

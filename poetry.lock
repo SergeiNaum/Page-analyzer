@@ -188,6 +188,16 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "flask-logging"
+version = "0.1.3"
+description = "UNKNOWN"
+optional = false
+python-versions = "*"
+files = [
+    {file = "Flask-Logging-0.1.3.tar.gz", hash = "sha256:0110cbc46b222b748c2b522215c5dfbc67d82b993f2340ecbd8515c0e7fe8d5f"},
+]
+
+[[package]]
 name = "gunicorn"
 version = "20.1.0"
 description = "WSGI HTTP Server for UNIX"
@@ -537,4 +547,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "c3d1bf8799b1cc970e1d3127d8001a625d608ec0eef961985cd2c71270a8e53e"
+content-hash = "915625d700ce5097369d4bf8bb2a29e875c31ccc4f81699df797e22c37651bfc"

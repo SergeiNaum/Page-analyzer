@@ -5,12 +5,8 @@ import psycopg2
 from datetime import datetime
 from typing import NamedTuple, List
 from psycopg2.extras import NamedTupleCursor
-from dotenv import load_dotenv
 
 from page_analyzer.app_config import DATABASE_URL
-
-
-load_dotenv()
 
 
 def get_connection(db_url):

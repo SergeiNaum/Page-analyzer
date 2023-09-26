@@ -30,6 +30,17 @@ files = [
 ]
 
 [[package]]
+name = "cachelib"
+version = "0.9.0"
+description = "A collection of cache libraries in the same API interface."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "cachelib-0.9.0-py3-none-any.whl", hash = "sha256:811ceeb1209d2fe51cd2b62810bd1eccf70feba5c52641532498be5c675493b3"},
+    {file = "cachelib-0.9.0.tar.gz", hash = "sha256:38222cc7c1b79a23606de5c2607f4925779e37cdcea1c2ad21b8bae94b5425a5"},
+]
+
+[[package]]
 name = "certifi"
 version = "2023.7.22"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -188,14 +199,19 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
-name = "flask-logging"
-version = "0.1.3"
-description = "UNKNOWN"
+name = "flask-caching"
+version = "2.0.2"
+description = "Adds caching support to Flask applications."
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "Flask-Logging-0.1.3.tar.gz", hash = "sha256:0110cbc46b222b748c2b522215c5dfbc67d82b993f2340ecbd8515c0e7fe8d5f"},
+    {file = "Flask-Caching-2.0.2.tar.gz", hash = "sha256:24b60c552d59a9605cc1b6a42c56cdb39a82a28dab4532bbedb9222ae54ecb4e"},
+    {file = "Flask_Caching-2.0.2-py3-none-any.whl", hash = "sha256:19571f2570e9b8dd9dd9d2f49d7cbee69c14ebe8cc001100b1eb98c379dd80ad"},
 ]
+
+[package.dependencies]
+cachelib = ">=0.9.0,<0.10.0"
+Flask = "<3"
 
 [[package]]
 name = "gunicorn"
@@ -334,6 +350,17 @@ python-versions = ">=3.6"
 files = [
     {file = "mccabe-0.7.0-py2.py3-none-any.whl", hash = "sha256:6c2d30ab6be0e4a46919781807b4f0d834ebdd6c6e3dca0bda5a15f863427b6e"},
     {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
+]
+
+[[package]]
+name = "polog"
+version = "0.0.17"
+description = "The new generation logger"
+optional = false
+python-versions = "*"
+files = [
+    {file = "polog-0.0.17-py3-none-any.whl", hash = "sha256:f2f93f8e0738ce40e352a69fb64b945db0162dabd790391c5fb666250ed8a554"},
+    {file = "polog-0.0.17.tar.gz", hash = "sha256:02fdb6465cb7d529cefdb5f2fbd2d4142237d1ea2123c0e36c7be0a3fd28eef6"},
 ]
 
 [[package]]
@@ -547,4 +574,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "915625d700ce5097369d4bf8bb2a29e875c31ccc4f81699df797e22c37651bfc"
+content-hash = "9d09cab214ca9977d421aa4abdf92ac275354f56570c8813a49d7fec0ac77c08"

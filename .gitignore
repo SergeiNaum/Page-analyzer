@@ -14,3 +14,4 @@ coverage.xml
 cover
 *,cover
 .python-version
+cache

@@ -14,7 +14,6 @@ def get_connection(db_url):
 
 
 @log
-# @create_db_connection(DATABASE_URL)
 def add_url(url_name: str, db: psycopg2) -> NamedTuple:
     cur = db.cursor(cursor_factory=NamedTupleCursor)
     try:
@@ -31,7 +30,6 @@ def add_url(url_name: str, db: psycopg2) -> NamedTuple:
 
 
 @log
-# @create_db_connection(DATABASE_URL)
 def create_url_check(url, status_code: int, tags_data: dict, db: psycopg2):
     cur = db.cursor(cursor_factory=NamedTupleCursor)
     try:
@@ -54,7 +52,6 @@ def create_url_check(url, status_code: int, tags_data: dict, db: psycopg2):
 
 
 @log
-# @create_db_connection(DATABASE_URL)
 def get_url_by_url_name(url_name: str, db: psycopg2) -> NamedTuple:
     cur = db.cursor(cursor_factory=NamedTupleCursor)
     try:
@@ -68,7 +65,6 @@ def get_url_by_url_name(url_name: str, db: psycopg2) -> NamedTuple:
 
 
 @log
-# @create_db_connection(DATABASE_URL)
 def get_urls_and_last_checks_data(db: psycopg2) -> List[NamedTuple]:
     cur = db.cursor(cursor_factory=NamedTupleCursor)
     try:
@@ -99,7 +95,6 @@ def get_urls_and_last_checks_data(db: psycopg2) -> List[NamedTuple]:
 
 
 @log
-# @create_db_connection(DATABASE_URL)
 def get_url_by_id(url_id, db: psycopg2) -> NamedTuple:
     cur = db.cursor(cursor_factory=NamedTupleCursor)
     try:
@@ -113,7 +108,6 @@ def get_url_by_id(url_id, db: psycopg2) -> NamedTuple:
 
 
 @log
-# @create_db_connection(DATABASE_URL)
 def get_url_checks_by_url_id(url_id, db: psycopg2) -> NamedTuple:
     cur = db.cursor(cursor_factory=NamedTupleCursor)
     try:

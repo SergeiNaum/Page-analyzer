@@ -30,17 +30,6 @@ files = [
 ]
 
 [[package]]
-name = "cachelib"
-version = "0.9.0"
-description = "A collection of cache libraries in the same API interface."
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "cachelib-0.9.0-py3-none-any.whl", hash = "sha256:811ceeb1209d2fe51cd2b62810bd1eccf70feba5c52641532498be5c675493b3"},
-    {file = "cachelib-0.9.0.tar.gz", hash = "sha256:38222cc7c1b79a23606de5c2607f4925779e37cdcea1c2ad21b8bae94b5425a5"},
-]
-
-[[package]]
 name = "certifi"
 version = "2023.7.22"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -197,21 +186,6 @@ Werkzeug = ">=2.3.7"
 [package.extras]
 async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
-
-[[package]]
-name = "flask-caching"
-version = "2.0.2"
-description = "Adds caching support to Flask applications."
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "Flask-Caching-2.0.2.tar.gz", hash = "sha256:24b60c552d59a9605cc1b6a42c56cdb39a82a28dab4532bbedb9222ae54ecb4e"},
-    {file = "Flask_Caching-2.0.2-py3-none-any.whl", hash = "sha256:19571f2570e9b8dd9dd9d2f49d7cbee69c14ebe8cc001100b1eb98c379dd80ad"},
-]
-
-[package.dependencies]
-cachelib = ">=0.9.0,<0.10.0"
-Flask = "<3"
 
 [[package]]
 name = "gunicorn"
@@ -574,4 +548,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "9d09cab214ca9977d421aa4abdf92ac275354f56570c8813a49d7fec0ac77c08"
+content-hash = "42a35c69f6408265b6023ab491cdfc042de0bc76214c849143e8b5e4689d518c"

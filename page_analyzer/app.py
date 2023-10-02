@@ -1,5 +1,3 @@
-
-from flask_caching import Cache
 from polog import log
 from flask import (
     Flask,
@@ -18,19 +16,8 @@ from page_analyzer.app_config import DATABASE_URL
 
 
 # app config
-config = {
-    "CACHE_TYPE": "FileSystemCache",
-    "CACHE_DEFAULT_TIMEOUT": 300,
-    "CACHE_DIR": "cache"
-}
-
-
 app = Flask(__name__)
-
-
 app.secret_key = SECRET_KEY
-app.config.from_mapping(config)
-cache = Cache(app)
 
 
 def get_redirect_to_url_details_page(id: int):
@@ -39,7 +26,6 @@ def get_redirect_to_url_details_page(id: int):
 
 @log
 @app.route('/')
-@cache.cached(timeout=50)
 def index():
     messages = get_flashed_messages(with_categories=True)
     return render_template('index.html', messages=messages)
@@ -53,7 +39,7 @@ def urls_show():
         data = db.get_urls_and_last_checks_data(conn)
         return render_template('urls/index.html', data=data)
     finally:
-        conn.close()
+        db.close_connection(conn)
 
 
 @log
@@ -84,7 +70,7 @@ def post_url():
         return get_redirect_to_url_details_page(id)
 
     finally:
-        conn.close()
+        db.close_connection(conn)
 
 
 @log
@@ -96,7 +82,7 @@ def get_url_details(id: int):
                                url_checks=db.get_url_checks_by_url_id(id, conn),
                                messages=get_flashed_messages(with_categories=True), )
     finally:
-        conn.close()
+        db.close_connection(conn)
 
 
 @log
@@ -122,7 +108,7 @@ def post_url_check(id: int):
         return get_redirect_to_url_details_page(id)
 
     finally:
-        conn.close()
+        db.close_connection(conn)
 
 
 @log

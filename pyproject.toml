@@ -18,7 +18,6 @@ validators = "^0.21.2"
 beautifulsoup4 = "^4.12.2"
 python-dotenv = "^1.0.0"
 polog = "^0.0.17"
-flask-caching = "^2.0.2"
 
 
 [tool.poetry.group.dev.dependencies]

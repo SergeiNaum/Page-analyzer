@@ -9,7 +9,6 @@ from polog import log
 from typing import NamedTuple, List
 
 
-
 @log
 def get_connection(db_url):
     return psycopg2.connect(db_url)

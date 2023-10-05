@@ -1,11 +1,13 @@
+import psycopg2
+from psycopg2.extensions import connection
+from psycopg2.extras import NamedTupleCursor
+
+from datetime import datetime
 from collections import namedtuple
 from polog import log
 
-import psycopg2
-
-from datetime import datetime
 from typing import NamedTuple, List
-from psycopg2.extras import NamedTupleCursor
+
 
 
 @log
@@ -14,84 +16,83 @@ def get_connection(db_url):
 
 
 @log
-def close_connection(connection):
-    if connection is not None:
-        connection.close()
+def close_connection(conn):
+    if conn:
+        conn.close()
 
 
 @log
-def add_url(url_name: str, db: psycopg2) -> NamedTuple:
-    with db:
-        with db.cursor(cursor_factory=NamedTupleCursor) as cur:
-            try:
-                cur.execute(
-                    """INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id;""",
-                    (url_name, datetime.now())
-                )
-                id = cur.fetchone()
-                db.commit()
+def add_url(conn: connection, url_name: str) -> NamedTuple:
+    with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
+        try:
+            cur.execute(
+                'INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id;',
+                (url_name, datetime.now())
+            )
+            id = cur.fetchone()
+            conn.commit()
 
-                return id.id
-            except psycopg2.DatabaseError as e:
-                raise Exception("An error occurred while adding the URL") from e
-
-
-@log
-def create_url_check(url, status_code: int, tags_data: dict, db: psycopg2):
-    with db:
-        with db.cursor(cursor_factory=NamedTupleCursor) as cur:
-            try:
-                cur.execute(
-                    """INSERT INTO url_checks
-                    (url_id, status_code, h1, title, description, created_at)
-                    VALUES (%s, %s, %s, %s, %s, %s);""",
-                    (
-                        url.id,
-                        status_code,
-                        tags_data['h1'],
-                        tags_data['title'],
-                        tags_data['description'],
-                        datetime.now(),
-                    ),
-                )
-                db.commit()
-            except psycopg2.DatabaseError as e:
-                raise Exception("An error occurred while creating URL check !") from e
+            return id.id
+        except psycopg2.DatabaseError as e:
+            raise Exception('An error occurred while adding the URL') from e
 
 
 @log
-def get_url_by_url_name(url_name: str, db: psycopg2) -> NamedTuple:
-    with db:
-        with db.cursor(cursor_factory=NamedTupleCursor) as cur:
+def create_url_check(conn: connection, url, status_code: int, tags_data: dict):
+    with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
+        try:
+            cur.execute(
+                '''INSERT INTO url_checks
+                (url_id, status_code, h1, title, description, created_at)
+                VALUES (%s, %s, %s, %s, %s, %s);''',
+                (
+                    url.id,
+                    status_code,
+                    tags_data['h1'],
+                    tags_data['title'],
+                    tags_data['description'],
+                    datetime.now(),
+                ),
+            )
+            conn.commit()
+        except psycopg2.DatabaseError as e:
+            raise Exception('An error occurred while creating URL check !') from e
+
+
+@log
+def get_url_by_url_name(conn: connection, url_name: str) -> NamedTuple:
+    with conn:
+        with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
             try:
-                cur.execute("""SELECT * FROM urls WHERE name = %s LIMIT 1;""", (url_name,), )
+                cur.execute('SELECT * FROM urls WHERE name = %s LIMIT 1;', (url_name,), )
                 url = cur.fetchone()
 
                 return url
 
             except psycopg2.DatabaseError as e:
-                raise Exception("An error occurred while getting URL by URL name !") from e
+                raise Exception('An error occurred while getting URL by URL name !') from e
 
 
 @log
-def get_urls_and_last_checks_data(db: psycopg2) -> List[NamedTuple]:
-    with db:
-        with db.cursor(cursor_factory=NamedTupleCursor) as cur:
+def get_urls_and_last_checks_data(conn: connection) -> List[NamedTuple]:
+    with conn:
+        with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
             try:
 
                 cur.execute(
-                    """SELECT DISTINCT ON (urls.id) id, name FROM urls;"""
+                    'SELECT DISTINCT ON (urls.id) id, name FROM urls;'
                 )
                 data_urls = cur.fetchall()
                 cur.execute(
-                    """SELECT DISTINCT ON (url_checks.url_id) url_id, status_code, created_at
-                    FROM url_checks;"""
+                    '''SELECT DISTINCT ON (url_checks.url_id) url_id, status_code, created_at
+                    FROM url_checks;'''
                 )
                 url_checks = cur.fetchall()
                 urls_dict = {url.id: url for url in data_urls}
                 record = namedtuple('Record', ['id', 'name', 'status_code', 'created_at'])
 
                 data = []
+
                 for check in url_checks:
                     url = urls_dict.get(check.url_id)
                     if url:
@@ -101,34 +102,34 @@ def get_urls_and_last_checks_data(db: psycopg2) -> List[NamedTuple]:
                 return data
 
             except psycopg2.DatabaseError as e:
-                raise Exception("An error occurred while getting URLs & last checks !") from e
+                raise Exception('An error occurred while getting URLs & last checks !') from e
 
 
 @log
-def get_url_by_id(url_id, db: psycopg2) -> NamedTuple:
-    with db:
-        with db.cursor(cursor_factory=NamedTupleCursor) as cur:
+def get_url_by_id(conn: connection, url_id) -> NamedTuple:
+    with conn:
+        with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
             try:
-                cur.execute('''SELECT * FROM urls WHERE id = %s LIMIT 1;''', (url_id,), )
+                cur.execute('SELECT * FROM urls WHERE id = %s LIMIT 1;', (url_id,), )
                 url = cur.fetchone()
 
                 return url
 
             except psycopg2.DatabaseError as e:
-                raise Exception("An error occurred while getting URL by ID !") from e
+                raise Exception('An error occurred while getting URL by ID !') from e
 
 
 @log
-def get_url_checks_by_url_id(url_id, db: psycopg2) -> NamedTuple:
-    with db:
-        with db.cursor(cursor_factory=NamedTupleCursor) as cur:
+def get_url_checks_by_url_id(conn: connection, url_id) -> NamedTuple:
+    with conn:
+        with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
             try:
-                cur.execute("""SELECT *
+                cur.execute('''SELECT *
                         FROM url_checks
                         WHERE url_id = %s
-                        ORDER BY id DESC;""", (url_id,), )
+                        ORDER BY id DESC;''', (url_id,), )
                 url_checks = cur.fetchall()
                 return url_checks
 
             except psycopg2.DatabaseError as e:
-                raise Exception("An error occurred while getting URL checks by URL ID!") from e
+                raise Exception('An error occurred while getting URL checks by URL ID!') from e

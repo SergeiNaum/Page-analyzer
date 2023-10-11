@@ -21,6 +21,18 @@ def close_connection(conn):
 
 
 @log
+def get_records_count(conn):
+    cur = conn.cursor()
+    try:
+        cur.execute('SELECT COUNT(*) FROM urls')
+        records_count = cur.fetchone()[0]
+        conn.commit()
+        return records_count
+    except psycopg2.DatabaseError as e:
+        raise Exception('An error occurred while adding the URL') from e
+
+
+@log
 def add_url(conn: connection, url_name: str) -> NamedTuple:
     cur = conn.cursor(cursor_factory=NamedTupleCursor)
     try:
@@ -72,13 +84,16 @@ def get_url_by_url_name(conn: connection, url_name: str) -> NamedTuple:
 
 
 @log
-def get_urls_and_last_checks_data(conn: connection) -> List[NamedTuple]:
+def get_urls_and_last_checks_data(
+        conn: connection, page_size: int, offset: int) -> List[NamedTuple]:
     cur = conn.cursor(cursor_factory=NamedTupleCursor)
     try:
 
         cur.execute(
-            'SELECT DISTINCT ON (urls.id) id, name FROM urls;'
+            'SELECT DISTINCT ON (urls.id) id, name FROM urls LIMIT %s OFFSET %s;',
+            (page_size, offset)
         )
+
         data_urls = cur.fetchall()
         cur.execute(
             '''SELECT DISTINCT ON (url_checks.url_id) url_id, status_code, created_at

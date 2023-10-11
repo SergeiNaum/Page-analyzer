@@ -1,3 +1,5 @@
+import math
+
 from polog import log
 from flask import (
     Flask,
@@ -21,6 +23,21 @@ app = Flask(__name__)
 app.secret_key = SECRET_KEY
 
 
+@log
+def get_pagination():
+    conn = db.get_connection(DATABASE_URL)
+    try:
+        page_size = 5
+        total_count = db.get_records_count(conn)
+        page_count = math.ceil(total_count / page_size)
+        current_page = int(request.args.get('page', 1))
+        offset = (current_page - 1) * page_size
+
+        return page_size, offset, page_count, current_page
+    finally:
+        db.close_connection(conn)
+
+
 def get_redirect_to_url_details_page(id: int):
     return redirect(url_for('get_url_details', id=id))
 
@@ -36,9 +53,11 @@ def index():
 @app.get('/urls')
 def urls_show():
     conn = db.get_connection(DATABASE_URL)
+    page_size, offset, page_count, current_page = get_pagination()
     try:
-        data = db.get_urls_and_last_checks_data(conn)
-        return render_template('urls/index.html', data=data)
+        data = db.get_urls_and_last_checks_data(conn, page_size, offset)
+        return render_template('urls/index.html',
+                               data=data, page_count=page_count, current_page=current_page)
     finally:
         db.close_connection(conn)
 

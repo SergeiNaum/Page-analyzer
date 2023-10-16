@@ -76,6 +76,7 @@ def get_url_by_url_name(conn: connection, url_name: str) -> NamedTuple:
         with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
             cur.execute('SELECT * FROM urls WHERE name = %s LIMIT 1;', (url_name,), )
             url = cur.fetchone()
+            conn.commit()
 
             return url
 
@@ -99,6 +100,9 @@ def get_urls_and_last_checks_data(
                 FROM url_checks;'''
             )
             url_checks = cur.fetchall()
+
+            conn.commit()
+
             urls_dict = {url.id: url for url in data_urls}
             record = namedtuple('Record', ['id', 'name', 'status_code', 'created_at'])
 
@@ -122,6 +126,7 @@ def get_url_by_id(conn: connection, url_id) -> NamedTuple:
         with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
             cur.execute('SELECT * FROM urls WHERE id = %s LIMIT 1;', (url_id,), )
             url = cur.fetchone()
+            conn.commit()
 
             return url
 
@@ -138,6 +143,7 @@ def get_url_checks_by_url_id(conn: connection, url_id) -> NamedTuple:
                     WHERE url_id = %s
                     ORDER BY id DESC;''', (url_id,), )
             url_checks = cur.fetchall()
+            conn.commit()
             return url_checks
 
     except psycopg2.DatabaseError as e:

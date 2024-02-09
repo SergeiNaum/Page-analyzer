@@ -30,7 +30,7 @@ createdb <db name>
 Clone repo: 
 
 ```bash
-git clone git@github.com:SergeiNaum/python-project-83.git
+git clone https://github.com/SergeiNaum/Page-analyzer.git
 ```
 
 Create database tables:
